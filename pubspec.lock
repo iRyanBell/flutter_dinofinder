@@ -29,6 +29,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.5"
+  camera:
+    dependency: "direct main"
+    description:
+      name: camera
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.6+3"
   charcode:
     dependency: transitive
     description:
@@ -170,6 +177,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.5"
+  tflite:
+    dependency: "direct main"
+    description:
+      name: tflite
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.4"
   typed_data:
     dependency: transitive
     description:
@@ -193,3 +207,4 @@ packages:
     version: "3.5.0"
 sdks:
   dart: ">=2.4.0 <3.0.0"
+  flutter: ">=1.6.7 <2.0.0"
