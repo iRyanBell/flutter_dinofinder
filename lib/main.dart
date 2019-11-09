@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
       title: 'DinoFinder',
       theme: ThemeData(
         primaryColor: Color.fromARGB(255, 78, 0, 160),
+        secondaryHeaderColor: Color.fromARGB(255, 160, 0, 160),
         brightness: Brightness.dark,
       ),
       home: MyHomePage(),
@@ -38,9 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
   bool isCameraReady = false;
   Map result = {};
 
-  @override
-  void initState() {
-    super.initState();
+  void activateDetector() {
     getAvailableCameras().then((cameras) {
       Tflite.loadModel(
               model: "assets/ssd_mobilenet.tflite",
@@ -88,6 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text('DinoFinder'),
       ),
+      backgroundColor: Color.fromARGB(255, 25, 25, 27),
       body: Center(
           child: isCameraReady
               ? Stack(
@@ -102,7 +102,9 @@ class _MyHomePageState extends State<MyHomePage> {
                               height: size.height * result['rect']['h'],
                               decoration: BoxDecoration(
                                   border: Border.all(
-                                      color: Theme.of(context).primaryColor)),
+                                      width: 4.0,
+                                      color: Theme.of(context)
+                                          .secondaryHeaderColor)),
                               child: Center(
                                 child: Text(
                                   result['detectedClass'],
@@ -126,8 +128,39 @@ class _MyHomePageState extends State<MyHomePage> {
                   ],
                 )
               : Container(
-                  child: Text('Loading Camera...'),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Image.asset('assets/images/bkg.png',
+                          width: size.width * 0.9, fit: BoxFit.fill),
+                      Padding(
+                          padding: EdgeInsets.only(
+                              top: 32.0, left: 32.0, right: 32.0),
+                          child: Text('Dinosaur classification',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 24.0,
+                                  fontWeight: FontWeight.bold))),
+                      Padding(
+                          padding: EdgeInsets.only(left: 32.0, right: 32.0),
+                          child: Text('Click the Search Button to begin!',
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 18.0)))
+                    ],
+                  ),
                 )),
+      floatingActionButton: isCameraReady
+          ? Container()
+          : FloatingActionButton(
+              backgroundColor: Theme.of(context).secondaryHeaderColor,
+              child: Icon(
+                Icons.search,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                activateDetector();
+              },
+            ),
     );
   }
 }

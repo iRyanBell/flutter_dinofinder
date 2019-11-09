@@ -1,4 +1,4 @@
-name: dino_finder
+name: DinoFinder
 description: Dinosaur classification with TensorFlow lite.
 version: 1.0.0+1
 
@@ -15,9 +15,16 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.7.4
 
 flutter:
   uses-material-design: true
   assets:
     - assets/ssd_mobilenet.tflite
     - assets/ssd_mobilenet.txt
+    - assets/images/bkg.png
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon/icon.png"
