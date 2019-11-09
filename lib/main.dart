@@ -101,7 +101,8 @@ class _MyHomePageState extends State<MyHomePage> {
                               width: size.width * result['rect']['w'],
                               height: size.height * result['rect']['h'],
                               decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.blueAccent)),
+                                  border: Border.all(
+                                      color: Theme.of(context).primaryColor)),
                               child: Center(
                                 child: Text(
                                   result['detectedClass'],
