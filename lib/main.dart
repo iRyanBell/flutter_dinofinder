@@ -130,21 +130,39 @@ class _MyHomePageState extends State<MyHomePage> {
           child: isCameraReady
               ? Stack(
                   children: <Widget>[
+                    Image.asset('assets/images/bkg.jpg',
+                        width: size.width,
+                        height: size.height,
+                        fit: BoxFit.cover),
                     Center(
-                      child: AspectRatio(
-                        aspectRatio: 1,
-                        child: ClipRect(
-                          child: Transform.scale(
-                            scale: 1 / controller.value.aspectRatio,
-                            child: Center(
-                              child: AspectRatio(
-                                aspectRatio: controller.value.aspectRatio,
-                                child: CameraPreview(controller),
+                      child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10.0)),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.green.withAlpha(64),
+                                  offset: Offset(0.0, 0.0),
+                                  blurRadius: 64.0)
+                            ],
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.all(16.0),
+                            child: AspectRatio(
+                              aspectRatio: 1,
+                              child: ClipRect(
+                                child: Transform.scale(
+                                  scale: 1 / controller.value.aspectRatio,
+                                  child: Center(
+                                    child: AspectRatio(
+                                      aspectRatio: controller.value.aspectRatio,
+                                      child: CameraPreview(controller),
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ),
-                      ),
+                          )),
                     ),
                     Center(
                       child: result.length > 0
@@ -167,33 +185,44 @@ class _MyHomePageState extends State<MyHomePage> {
                   ],
                 )
               : Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Image.asset('assets/images/bkg.png',
-                          width: size.width * 0.9, fit: BoxFit.fill),
-                      Padding(
-                          padding: EdgeInsets.only(
-                              top: 32.0, left: 32.0, right: 32.0),
-                          child: Text('Dinosaur classification',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 24.0,
-                                  fontWeight: FontWeight.bold))),
-                      Padding(
-                          padding: EdgeInsets.only(left: 32.0, right: 32.0),
-                          child: Text('Click the Search Button to begin!',
-                              style: TextStyle(
-                                  color: Colors.white, fontSize: 18.0)))
-                    ],
-                  ),
-                )),
+                  child: Stack(
+                  children: <Widget>[
+                    Image.asset('assets/images/bkg.jpg',
+                        width: size.width,
+                        height: size.height,
+                        fit: BoxFit.cover),
+                    Center(
+                      child: Column(
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.only(top: 32.0),
+                            child: Image.asset('assets/images/logo.png',
+                                width: size.width * 0.9, fit: BoxFit.fill),
+                          ),
+                          Padding(
+                              padding: EdgeInsets.only(
+                                  top: 8.0, left: 32.0, right: 32.0),
+                              child: Text('Dinosaur classification',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 24.0,
+                                      fontWeight: FontWeight.bold))),
+                          Padding(
+                              padding: EdgeInsets.only(left: 32.0, right: 32.0),
+                              child: Text('Click the Search Button to begin!',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18.0)))
+                        ],
+                      ),
+                    )
+                  ],
+                ))),
       floatingActionButton: Container(
           height: 96,
           width: 96,
           child: FittedBox(
               child: FloatingActionButton(
-            backgroundColor: Theme.of(context).secondaryHeaderColor,
+            backgroundColor: Colors.green.shade800,
             child: Icon(
               isCameraReady ? Icons.camera_alt : Icons.search,
               color: Colors.white,
