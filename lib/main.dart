@@ -8,8 +8,14 @@ import 'package:image/image.dart' as im;
 import 'package:tflite/tflite.dart';
 import 'package:path/path.dart' show join;
 import 'package:path_provider/path_provider.dart';
+import 'package:audioplayers/audio_cache.dart';
 
 void main() => runApp(MyApp());
+
+void roar() {
+  AudioCache player = AudioCache();
+  player.play('sounds/dino_sound.mp3');
+}
 
 Future<List<CameraDescription>> getAvailableCameras() async {
   List<CameraDescription> cameras = await availableCameras();
@@ -108,6 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
         .then((recognitions) {
       if (recognitions.length > 0) {
         print(recognitions.first);
+        roar();
 
         // Display new result
         setState(() {
@@ -123,7 +130,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('DinoFinder'),
+        title: Image.asset('assets/images/title.png',
+            height: 24, fit: BoxFit.contain),
       ),
       backgroundColor: Color.fromARGB(255, 25, 25, 27),
       body: Center(
@@ -135,34 +143,30 @@ class _MyHomePageState extends State<MyHomePage> {
                         height: size.height,
                         fit: BoxFit.cover),
                     Center(
-                      child: Container(
+                      child: Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: Container(
                           decoration: BoxDecoration(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10.0)),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.green.withAlpha(64),
-                                  offset: Offset(0.0, 0.0),
-                                  blurRadius: 64.0)
-                            ],
+                            border: Border.all(
+                                color: Theme.of(context).secondaryHeaderColor,
+                                width: 2),
                           ),
-                          child: Padding(
-                            padding: EdgeInsets.all(16.0),
-                            child: AspectRatio(
-                              aspectRatio: 1,
-                              child: ClipRect(
-                                child: Transform.scale(
-                                  scale: 1 / controller.value.aspectRatio,
-                                  child: Center(
-                                    child: AspectRatio(
-                                      aspectRatio: controller.value.aspectRatio,
-                                      child: CameraPreview(controller),
-                                    ),
+                          child: AspectRatio(
+                            aspectRatio: 1,
+                            child: ClipRect(
+                              child: Transform.scale(
+                                scale: 1 / controller.value.aspectRatio,
+                                child: Center(
+                                  child: AspectRatio(
+                                    aspectRatio: controller.value.aspectRatio,
+                                    child: CameraPreview(controller),
                                   ),
                                 ),
                               ),
                             ),
-                          )),
+                          ),
+                        ),
+                      ),
                     ),
                     Center(
                       child: result.length > 0
