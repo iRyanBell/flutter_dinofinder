@@ -88,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
     await controller.takePicture(path);
 
     im.Image image = im.decodeImage(File(path).readAsBytesSync());
-    var cropSize = min(image.width, image.height);
+    int cropSize = min(image.width, image.height);
     int offsetX = (image.width - min(image.width, image.height)) ~/ 2;
     int offsetY = (image.height - min(image.width, image.height)) ~/ 2;
 
