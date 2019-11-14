@@ -148,8 +148,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: Container(
                           decoration: BoxDecoration(
                             border: Border.all(
-                                color: Theme.of(context).secondaryHeaderColor,
-                                width: 2),
+                                color: Colors.orangeAccent, width: 2),
                           ),
                           child: AspectRatio(
                             aspectRatio: 1,
@@ -213,7 +212,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       fontWeight: FontWeight.bold))),
                           Padding(
                               padding: EdgeInsets.only(left: 32.0, right: 32.0),
-                              child: Text('Click the Search Button to begin!',
+                              child: Text('Tap the Camera button to begin!',
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 18.0)))
                         ],
@@ -226,7 +225,7 @@ class _MyHomePageState extends State<MyHomePage> {
           width: 96,
           child: FittedBox(
               child: FloatingActionButton(
-            backgroundColor: Colors.green.shade900,
+            backgroundColor: Colors.orangeAccent,
             child: isCameraReady
                 ? Image.asset(
                     'assets/images/dino_cam_icon.png',
@@ -235,8 +234,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     fit: BoxFit.contain,
                   )
                 : Icon(
-                    Icons.search,
-                    color: Colors.white,
+                    Icons.camera_alt,
+                    color: Colors.black,
                   ),
             onPressed: () {
               isCameraReady ? captureImage() : activateDetector();
