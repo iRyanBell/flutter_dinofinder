@@ -226,11 +226,18 @@ class _MyHomePageState extends State<MyHomePage> {
           width: 96,
           child: FittedBox(
               child: FloatingActionButton(
-            backgroundColor: Colors.green.shade800,
-            child: Icon(
-              isCameraReady ? Icons.camera_alt : Icons.search,
-              color: Colors.white,
-            ),
+            backgroundColor: Colors.green.shade900,
+            child: isCameraReady
+                ? Image.asset(
+                    'assets/images/dino_cam_icon.png',
+                    width: 40,
+                    height: 40.0,
+                    fit: BoxFit.contain,
+                  )
+                : Icon(
+                    Icons.search,
+                    color: Colors.white,
+                  ),
             onPressed: () {
               isCameraReady ? captureImage() : activateDetector();
             },

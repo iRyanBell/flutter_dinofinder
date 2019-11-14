@@ -27,6 +27,7 @@ flutter:
     - assets/images/bkg.jpg
     - assets/images/logo.png
     - assets/images/title.png
+    - assets/images/dino_cam_icon.png
     - assets/sounds/dino_sound.mp3
 
 flutter_icons:
