@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:camera/camera.dart';
@@ -85,12 +86,20 @@ class _MyHomePageState extends State<MyHomePage> {
       '${DateTime.now()}.png',
     );
     await controller.takePicture(path);
-    int imgSize = 512;
+
     im.Image image = im.decodeImage(File(path).readAsBytesSync());
-    im.Image resized = im.copyResize(image,
+    var cropSize = min(image.width, image.height);
+    int offsetX = (image.width - min(image.width, image.height)) ~/ 2;
+    int offsetY = (image.height - min(image.width, image.height)) ~/ 2;
+
+    im.Image imageSquare =
+        im.copyCrop(image, offsetX, offsetY, cropSize, cropSize);
+
+    int imgSize = 512;
+    im.Image imageResized = im.copyResize(imageSquare,
         width: imgSize, height: imgSize, interpolation: im.Interpolation.cubic);
     Tflite.runModelOnBinary(
-            binary: imageToByteListFloat32(resized, imgSize, 127.5, 127.5))
+            binary: imageToByteListFloat32(imageResized, imgSize, 127.5, 127.5))
         .then((recognitions) {
       if (recognitions.length > 0) {
         print(recognitions.first);
@@ -114,7 +123,22 @@ class _MyHomePageState extends State<MyHomePage> {
           child: isCameraReady
               ? Stack(
                   children: <Widget>[
-                    CameraPreview(controller),
+                    Center(
+                      child: AspectRatio(
+                        aspectRatio: 1,
+                        child: ClipRect(
+                          child: Transform.scale(
+                            scale: 1 / controller.value.aspectRatio,
+                            child: Center(
+                              child: AspectRatio(
+                                aspectRatio: controller.value.aspectRatio,
+                                child: CameraPreview(controller),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                     Center(
                       child: result.length > 0
                           ? Container(
