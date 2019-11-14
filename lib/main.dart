@@ -79,6 +79,11 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> captureImage() async {
+    // Clear previous result
+    setState(() {
+      result = '';
+    });
+
     final path = join(
       // Store the picture in the temp directory.
       // Find the temp directory using the `path_provider` plugin.
@@ -103,6 +108,8 @@ class _MyHomePageState extends State<MyHomePage> {
         .then((recognitions) {
       if (recognitions.length > 0) {
         print(recognitions.first);
+
+        // Display new result
         setState(() {
           result = recognitions.first['label'];
         });
