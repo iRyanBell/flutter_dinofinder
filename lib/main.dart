@@ -85,15 +85,17 @@ class _MyHomePageState extends State<MyHomePage> {
       '${DateTime.now()}.png',
     );
     await controller.takePicture(path);
+    int imgSize = 512;
     im.Image image = im.decodeImage(File(path).readAsBytesSync());
-    im.Image resized = im.copyResize(image, width: 224, height: 224);
+    im.Image resized = im.copyResize(image,
+        width: imgSize, height: imgSize, interpolation: im.Interpolation.cubic);
     Tflite.runModelOnBinary(
-            binary: imageToByteListFloat32(resized, 224, 127.5, 127.5))
+            binary: imageToByteListFloat32(resized, imgSize, 127.5, 127.5))
         .then((recognitions) {
       if (recognitions.length > 0) {
-        print(recognitions[0]);
+        print(recognitions.first);
         setState(() {
-          result = recognitions[0]['label'];
+          result = recognitions.first['label'];
         });
       }
     });
@@ -114,19 +116,22 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: <Widget>[
                     CameraPreview(controller),
                     Center(
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Theme.of(context)
-                                .secondaryHeaderColor
-                                .withAlpha(127),
-                            borderRadius: BorderRadius.all(Radius.circular(4))),
-                        child: Padding(
-                          padding: EdgeInsets.all(8),
-                          child: Text(result,
-                              style: TextStyle(
-                                  color: Colors.white, fontSize: 32.0)),
-                        ),
-                      ),
+                      child: result.length > 0
+                          ? Container(
+                              decoration: BoxDecoration(
+                                  color: Theme.of(context)
+                                      .secondaryHeaderColor
+                                      .withAlpha(127),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(4))),
+                              child: Padding(
+                                padding: EdgeInsets.all(8),
+                                child: Text(result,
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 32.0)),
+                              ),
+                            )
+                          : Container(),
                     )
                   ],
                 )
@@ -152,16 +157,20 @@ class _MyHomePageState extends State<MyHomePage> {
                     ],
                   ),
                 )),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Theme.of(context).secondaryHeaderColor,
-        child: Icon(
-          isCameraReady ? Icons.camera_alt : Icons.search,
-          color: Colors.white,
-        ),
-        onPressed: () {
-          isCameraReady ? captureImage() : activateDetector();
-        },
-      ),
+      floatingActionButton: Container(
+          height: 72,
+          width: 72,
+          child: FittedBox(
+              child: FloatingActionButton(
+            backgroundColor: Theme.of(context).secondaryHeaderColor,
+            child: Icon(
+              isCameraReady ? Icons.camera_alt : Icons.search,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              isCameraReady ? captureImage() : activateDetector();
+            },
+          ))),
     );
   }
 }
