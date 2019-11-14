@@ -18,12 +18,12 @@ Future<List<CameraDescription>> getAvailableCameras() async {
 
 Uint8List imageToByteListFloat32(
     im.Image image, int inputSize, double mean, double std) {
-  var convertedBytes = Float32List(1 * inputSize * inputSize * 3);
-  var buffer = Float32List.view(convertedBytes.buffer);
+  Float32List convertedBytes = Float32List(1 * inputSize * inputSize * 3);
+  Float32List buffer = Float32List.view(convertedBytes.buffer);
   int pixelIndex = 0;
-  for (var i = 0; i < inputSize; i++) {
-    for (var j = 0; j < inputSize; j++) {
-      var pixel = image.getPixel(j, i);
+  for (int i = 0; i < inputSize; i++) {
+    for (int j = 0; j < inputSize; j++) {
+      int pixel = image.getPixel(j, i);
       buffer[pixelIndex++] = (im.getRed(pixel) - mean) / std;
       buffer[pixelIndex++] = (im.getGreen(pixel) - mean) / std;
       buffer[pixelIndex++] = (im.getBlue(pixel) - mean) / std;
