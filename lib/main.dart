@@ -100,7 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
     im.Image imageSquare =
         im.copyCrop(image, offsetX, offsetY, cropSize, cropSize);
 
-    int imgSize = 512;
+    int imgSize = 224;
     im.Image imageResized = im.copyResize(imageSquare,
         width: imgSize, height: imgSize, interpolation: im.Interpolation.cubic);
     Tflite.runModelOnBinary(
