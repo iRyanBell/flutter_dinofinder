@@ -1,13 +1,34 @@
+import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:camera/camera.dart';
+import 'package:image/image.dart' as im;
 import 'package:tflite/tflite.dart';
+import 'package:path/path.dart' show join;
+import 'package:path_provider/path_provider.dart';
 
 void main() => runApp(MyApp());
 
 Future<List<CameraDescription>> getAvailableCameras() async {
   List<CameraDescription> cameras = await availableCameras();
   return cameras;
+}
+
+Uint8List imageToByteListFloat32(
+    im.Image image, int inputSize, double mean, double std) {
+  var convertedBytes = Float32List(1 * inputSize * inputSize * 3);
+  var buffer = Float32List.view(convertedBytes.buffer);
+  int pixelIndex = 0;
+  for (var i = 0; i < inputSize; i++) {
+    for (var j = 0; j < inputSize; j++) {
+      var pixel = image.getPixel(j, i);
+      buffer[pixelIndex++] = (im.getRed(pixel) - mean) / std;
+      buffer[pixelIndex++] = (im.getGreen(pixel) - mean) / std;
+      buffer[pixelIndex++] = (im.getBlue(pixel) - mean) / std;
+    }
+  }
+  return convertedBytes.buffer.asUint8List();
 }
 
 class MyApp extends StatelessWidget {
@@ -37,13 +58,13 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   CameraController controller;
   bool isCameraReady = false;
-  Map result = {};
+  String result = '';
 
   void activateDetector() {
     getAvailableCameras().then((cameras) {
       Tflite.loadModel(
-              model: "assets/ssd_mobilenet.tflite",
-              labels: "assets/ssd_mobilenet.txt",
+              model: "assets/dinofinder.tflite",
+              labels: "assets/dinofinder.txt",
               numThreads: 1)
           .then((_) {
         controller = CameraController(cameras[0], ResolutionPreset.medium);
@@ -56,32 +77,31 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  Future<void> captureImage() async {
+    final path = join(
+      // Store the picture in the temp directory.
+      // Find the temp directory using the `path_provider` plugin.
+      (await getTemporaryDirectory()).path,
+      '${DateTime.now()}.png',
+    );
+    await controller.takePicture(path);
+    im.Image image = im.decodeImage(File(path).readAsBytesSync());
+    im.Image resized = im.copyResize(image, width: 224, height: 224);
+    Tflite.runModelOnBinary(
+            binary: imageToByteListFloat32(resized, 224, 127.5, 127.5))
+        .then((recognitions) {
+      if (recognitions.length > 0) {
+        print(recognitions[0]);
+        setState(() {
+          result = recognitions[0]['label'];
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-
-    if (isCameraReady) {
-      controller.startImageStream((CameraImage img) {
-        try {
-          Tflite.detectObjectOnFrame(
-                  model: "SSDMobileNet",
-                  bytesList: img.planes.map((plane) => plane.bytes).toList(),
-                  imageHeight: img.height,
-                  imageWidth: img.width,
-                  threshold: 0.5)
-              .then((recognitions) {
-            if (recognitions.length > 0) {
-              print(recognitions[0]);
-              setState(() {
-                result = recognitions[0];
-              });
-            }
-          });
-        } catch (err) {
-          print(err);
-        }
-      });
-    }
 
     return Scaffold(
       appBar: AppBar(
@@ -93,38 +113,21 @@ class _MyHomePageState extends State<MyHomePage> {
               ? Stack(
                   children: <Widget>[
                     CameraPreview(controller),
-                    result.containsKey('detectedClass')
-                        ? Positioned(
-                            top: size.height * result['rect']['y'],
-                            left: size.width * result['rect']['x'],
-                            child: Container(
-                              width: size.width * result['rect']['w'],
-                              height: size.height * result['rect']['h'],
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      width: 4.0,
-                                      color: Theme.of(context)
-                                          .secondaryHeaderColor)),
-                              child: Center(
-                                child: Text(
-                                  result['detectedClass'],
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 21.0),
-                                ),
-                              ),
-                            ),
-                          )
-                        : Container(
-                            height: size.height,
-                            width: size.width,
-                            child: Center(
-                              child: Text(
-                                'Searching for dinosaurs!',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 21.0),
-                              ),
-                            ),
-                          )
+                    Center(
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Theme.of(context)
+                                .secondaryHeaderColor
+                                .withAlpha(127),
+                            borderRadius: BorderRadius.all(Radius.circular(4))),
+                        child: Padding(
+                          padding: EdgeInsets.all(8),
+                          child: Text(result,
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 32.0)),
+                        ),
+                      ),
+                    )
                   ],
                 )
               : Container(
@@ -149,18 +152,16 @@ class _MyHomePageState extends State<MyHomePage> {
                     ],
                   ),
                 )),
-      floatingActionButton: isCameraReady
-          ? Container()
-          : FloatingActionButton(
-              backgroundColor: Theme.of(context).secondaryHeaderColor,
-              child: Icon(
-                Icons.search,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                activateDetector();
-              },
-            ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Theme.of(context).secondaryHeaderColor,
+        child: Icon(
+          isCameraReady ? Icons.camera_alt : Icons.search,
+          color: Colors.white,
+        ),
+        onPressed: () {
+          isCameraReady ? captureImage() : activateDetector();
+        },
+      ),
     );
   }
 }

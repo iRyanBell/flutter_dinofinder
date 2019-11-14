@@ -11,6 +11,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   camera: ^0.5.6+3
   tflite: ^1.0.4
+  path_provider: ^1.4.2
 
 dev_dependencies:
   flutter_test:
@@ -20,8 +21,8 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/ssd_mobilenet.tflite
-    - assets/ssd_mobilenet.txt
+    - assets/dinofinder.tflite
+    - assets/dinofinder.txt
     - assets/images/bkg.png
 
 flutter_icons:
