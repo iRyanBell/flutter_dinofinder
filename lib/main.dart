@@ -182,8 +182,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 )),
       floatingActionButton: Container(
-          height: 72,
-          width: 72,
+          height: 96,
+          width: 96,
           child: FittedBox(
               child: FloatingActionButton(
             backgroundColor: Theme.of(context).secondaryHeaderColor,
