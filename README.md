@@ -25,3 +25,7 @@ The camera from a user's mobile device is used to capture a square, center-cropp
 ## Limitations:
 
 We aim to perform dinosaur classification across a range of artist renderings for a small set of well-known species of dinosaurs. Acquiring the training data, filtering out the best-representational imagery, and generalizing the features between results is not a simple task. Our current model was trained on just a few hundred samples for each label type, limiting the accuracy of the model. We hope to expand our dataset to improve the model accuracy using a wider collection of publicly available renderings on the web.
+
+## Credits:
+
+This work was completed by [https://www.linkedin.com/in/dr-youngjun-choi/](Youngjun Choi) and [https://www.linkedin.com/in/iryanbell/](Ryan Bell).
