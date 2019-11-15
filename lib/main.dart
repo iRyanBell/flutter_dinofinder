@@ -132,6 +132,12 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Image.asset('assets/images/title.png',
             height: 24, fit: BoxFit.contain),
+        actions: <Widget>[
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.info),
+          )
+        ],
       ),
       backgroundColor: Color.fromARGB(255, 25, 25, 27),
       body: Center(
