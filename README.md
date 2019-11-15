@@ -4,6 +4,8 @@ A machine learning model for native mobile devices to perform dinosaur image cla
 
 ![Screenshot](https://user-images.githubusercontent.com/25379378/68976451-a1e20380-07aa-11ea-8955-b745dafc445e.png)
 
+[View Demo]()
+
 ## Install dependencies:
 
 ```bash
