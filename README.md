@@ -28,4 +28,4 @@ We aim to perform dinosaur classification across a range of artist renderings fo
 
 ## Credits:
 
-This work was completed by [https://www.linkedin.com/in/dr-youngjun-choi/](Youngjun Choi) and [https://www.linkedin.com/in/iryanbell/](Ryan Bell).
+This work was completed by [Youngjun Choi](https://www.linkedin.com/in/dr-youngjun-choi/) and [Ryan Bell](https://www.linkedin.com/in/iryanbell/).
