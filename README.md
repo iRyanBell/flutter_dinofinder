@@ -4,7 +4,7 @@ A machine learning model for native mobile devices to perform dinosaur image cla
 
 ![Screenshot](https://user-images.githubusercontent.com/25379378/68976451-a1e20380-07aa-11ea-8955-b745dafc445e.png)
 
-[View Demo]()
+[View Demo](https://github.com/iRyanBell/flutter_dinofinder/raw/master/demo.mp4)
 
 ## Install dependencies:
 
