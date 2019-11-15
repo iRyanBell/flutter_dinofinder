@@ -9,6 +9,7 @@ import 'package:tflite/tflite.dart';
 import 'package:path/path.dart' show join;
 import 'package:path_provider/path_provider.dart';
 import 'package:audioplayers/audio_cache.dart';
+import 'package:DinoFinder/info.dart';
 
 void main() => runApp(MyApp());
 
@@ -52,17 +53,18 @@ class MyApp extends StatelessWidget {
         secondaryHeaderColor: Color.fromARGB(255, 160, 0, 160),
         brightness: Brightness.dark,
       ),
-      home: MyHomePage(),
+      initialRoute: '/',
+      routes: {'/': (context) => HomePage(), '/info': (context) => InfoPage()},
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
+class HomePage extends StatefulWidget {
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomePageState extends State<HomePage> {
   CameraController controller;
   bool isCameraReady = false;
   String result = '';
@@ -134,7 +136,9 @@ class _MyHomePageState extends State<MyHomePage> {
             height: 24, fit: BoxFit.contain),
         actions: <Widget>[
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).pushNamed("/info");
+            },
             icon: Icon(Icons.info),
           )
         ],
