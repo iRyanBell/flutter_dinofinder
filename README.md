@@ -2,7 +2,7 @@
 
 A machine learning model for native mobile devices to perform dinosaur image classification using TensorFlow Lite and Flutter.
 
-![Sample image](https://user-images.githubusercontent.com/25379378/68825509-31729f80-064f-11ea-9adf-3f4e627f5aa9.png)
+![Screenshot](https://user-images.githubusercontent.com/25379378/68976451-a1e20380-07aa-11ea-8955-b745dafc445e.png)
 
 ## Install dependencies:
 
