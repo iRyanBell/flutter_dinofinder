@@ -9,6 +9,6 @@ Protoceratops
 Pteranodon
 Spinosaurus
 Stegosaurus
-T-rex
+Tyrannosaurus
 Triceratops
 Velociraptor
