@@ -2,7 +2,7 @@
 
 A machine learning model for native mobile devices to perform dinosaur image classification using TensorFlow Lite and Flutter.
 
-Supported species:
+**Supported species**:
 
 - Ankylosaurus
 - Brachiosaurus
