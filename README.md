@@ -42,7 +42,7 @@ The camera from a user's mobile device is used to capture a square, center-cropp
 ## Image scraper:
 
 To collect training data-set for dinosaur image classification, the image scroller that efficiently collects image data is implemented. The image scraper link is as follows:
-[Google Image scraper](https://github.com/parang17/Google_image_downloader)
+[Google Image Scraper](https://github.com/parang17/Google_image_downloader)
 
 ## Machine Learning(ML) model 
 The ML model uses mobilenet provided by Tensorflow. The following link has the ML model.
