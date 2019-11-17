@@ -39,10 +39,10 @@ flutter run
 
 The camera from a user's mobile device is used to capture a square, center-cropped image. This image is rescaled with bicubic interpolation down to a 224x224px image. The pretrained model performs a prediction on this data as a standarized 3-channel RGB matrix. The prediction result with the highest confidence score is then overlaid onto the user interface.
 
-## Image scroller:
+## Image scraper:
 
-To collect training data-set for dinosaur image classification, the image scroller that efficiently collects image data is implemented. The image scroller link is as follows:
-[Google Image Scroller](https://github.com/parang17/Google_image_downloader)
+To collect training data-set for dinosaur image classification, the image scroller that efficiently collects image data is implemented. The image scraper link is as follows:
+[Google Image scraper](https://github.com/parang17/Google_image_downloader)
 
 ## Machine Learning(ML) model 
 The ML model uses mobilenet provided by Tensorflow. The following link has the ML model.
